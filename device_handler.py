@@ -1,5 +1,8 @@
 import logging
 import sys
+import json
+from subprocess import check_output
+
 import database
 import common
 from device import Device
@@ -46,6 +49,16 @@ def process_device(device, cloud, env_vars, args):
 
             if remote.test_connection():
                 logger.debug(f"Connection test succeeded for device {uuid}")
+
+                logger.info(dut.network_info)
+
+                # write the changes to a file, sleep for a long time for now. lol
+                with open("device_information.json", "w") as f:
+                    json.dump(dut.network_info, f, ensure_ascii=False)
+
+                if args.run_before_on_host:
+                    output = check_output([args.run_before_on_host])
+                    print(output)
 
                 if args.before:
                     remote.connection.run(args.before)
