@@ -42,5 +42,11 @@ def parse_arguments():
         type=str,
         help="Path of config which tells Aval which device to match.",
     )
+    parser.add_argument(
+        "--run_before_on_host",
+        type=str,
+        help="Path of a file to be executed on the host system running Aval before running the main command in the DUT",
+    )
+
     args = parser.parse_args()
     return args

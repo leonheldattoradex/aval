@@ -10,7 +10,9 @@ Aval is meant to be used either locally or from a CI pipeline.
 Copied straight from `python3 main.py --help`.
 
 ```
-usage: main.py [-h] [--copy-artifact remote-path [local-output ...]] [--before BEFORE] [--delegation-config DELEGATION_CONFIG] [--device-config DEVICE_CONFIG] command
+usage: main.py [-h] [--copy-artifact remote-path [local-output ...]] [--before BEFORE] [--delegation-config DELEGATION_CONFIG]
+               [--device-config DEVICE_CONFIG] [--run_before_on_host RUN_BEFORE_ON_HOST]
+               command
 
 Run commands on remote devices provisioned on Torizon Cloud.
 
@@ -20,13 +22,24 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   --copy-artifact remote-path [local-output ...]
-                        Copies multiple files over Remote Access from the target device to local-output. Specify pairs of remote-path and local-output.
+                        Copies multiple files over Remote Access from the target device to local-output. Specify pairs of remote-
+                        path and local-output.
   --before BEFORE       Command to run before the main command on target device.
   --delegation-config DELEGATION_CONFIG
                         Path of config which tells Aval how to parse the target delegation.
   --device-config DEVICE_CONFIG
                         Path of config which tells Aval which device to match.
+  --run_before_on_host RUN_BEFORE_ON_HOST
+                        Path of a file to be executed on the host system running Aval before running the main command in the DUT
 ```
+
+## Network Information
+
+Network information is always written to a file on the local folder called `device_information.json`. When used in combination with `--run_before_on_host`, this provides an alternative way to connect to the device from a script on the host computer using the data from the json network information file.
+
+This allows integration with tests being run outside of the scope of Aval, such as integration tests between a host computer and the board. Note that you'll need to handle the SSH session on your own on this case.
+
+This option mainly exists to use Aval for the TCB/IDE tests.
 
 ## Example
 

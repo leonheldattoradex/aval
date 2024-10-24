@@ -26,12 +26,12 @@ class Device:
         self._latest_build = None
         self._remote_session_time = None
 
+        self.network_info = self._get_network_info()
         self.remote_session_ip = None
         self.remote_session_port = None
 
     def setup_usual_ssh_session(self):
-        network_info = self._get_network_info()
-        self.remote_session_ip = network_info["localIpV4"]
+        self.remote_session_ip = self.network_info["localIpV4"]
         self.remote_session_port = "22"
 
     def setup_rac_session(self, RAC_IP):
